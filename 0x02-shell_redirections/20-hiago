@@ -1,2 +1,2 @@
 #!/bin/bash
-tr -d c <&2 | tr -d C
+tr -d c <&0 | tr -d C

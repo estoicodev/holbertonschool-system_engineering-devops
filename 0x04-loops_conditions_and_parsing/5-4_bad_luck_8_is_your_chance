@@ -9,7 +9,7 @@ do
     echo "bad luck"
   elif [ $COUNTER -eq 8 ]
   then
-    echo "goof luck"
+    echo "good luck"
   else
     echo "Best School"
   fi

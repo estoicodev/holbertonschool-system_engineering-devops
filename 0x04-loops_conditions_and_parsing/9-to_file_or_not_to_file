@@ -12,7 +12,7 @@ then
   fi
   if [ -f $namefile ]
   then
-    echo "$namefile file is a regular file"
+    echo "$namefile is a regular file"
   fi
 else
   echo "$namefile file does not exist"

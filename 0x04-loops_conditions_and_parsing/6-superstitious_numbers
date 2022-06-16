@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
-# This script is displaying numbers from 1 to 20, and displays 'bad luck from China' for the 4th iteration, 'bad luck from Japan' for the 9th iteration, 'bad luck from Italy' for the 17th iteration, and just the numbers for other iterations
+# This script is displaying numbers from 1 to 20, and displays
+# 'bad luck from China' for the 4th iteration, 'bad luck from Japan'
+# for the 9th iteration, 'bad luck from Italy' for the 17th iteration,
+# and just the numbers for other iterations
 COUNTER=1
 while [ $COUNTER -le 20 ];
 do
   echo $COUNTER
-  if [ $COUNTER -eq 4 ]
-  then
-    echo "bad luck from China"
-  elif [ $COUNTER -eq 9 ]
-  then
-    echo "bad luck from Japan"
-  elif [ $COUNTER -eq 17 ]
-  then
-    echo "bad luck from Italy"
-  fi
+  case "$COUNTER" in
+  4)  echo "bad luck from China"
+      ;;
+  9)  echo "bad luck from Japan"
+      ;;
+  17)  echo "bad luck from Italy"
+      ;;
+  esac
   COUNTER=$((COUNTER + 1))
 done

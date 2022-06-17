@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script stop the process of task 4 without using kill or killall
+i=0
+while [ $i -lt 10 ];
+do
+  echo "To infinity and beyond"
+  sleep 2
+  trap "echo I am invincible!!!" SIGTERM
+done

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# This script configures the hosts file
+ip_home="127.0.0.2"
+ip_fb="8.8.8.8"
+host_home="localhost"
+host_fb="facebook.com"
+host_entry_home="${ip_home}\t${host_home}"
+host_entry_fb="${ip_fb} ${host_fb}"
+
+cp /etc/hosts hosts.new
+
+home_n="$(grep -m 1 -n $host_home hosts.new | cut -d ':' -f 1)"
+fb_n="$(grep -m 1 -n $host_fb hosts.new | cut -d ':' -f 1)"
+n_home_length=${#home_n}
+n_fb_length=${#fb_n}
+
+if [ "$n_home_length" -eq 0 ]
+then
+  echo "$host_entry_home" >> hosts.new
+else
+  sed -i "${home_n}d" hosts.new
+  sed -i "${home_n}i${host_entry_home}" hosts.new
+fi
+if [ "$n_fb_length" -eq 0 ]
+then
+  echo "$host_entry_fb" >> hosts.new
+else
+  sed -i "${fb_n}d" hosts.new
+  echo "$host_entry_fb" >> hosts.new
+fi
+
+sudo cp -f hosts.new /etc/hosts
+rm hosts.new

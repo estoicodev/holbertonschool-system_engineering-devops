@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # Fix apache server into Docker
+echo "ServerName localhost" >> /etc/apache2.conf
 service apache2 start

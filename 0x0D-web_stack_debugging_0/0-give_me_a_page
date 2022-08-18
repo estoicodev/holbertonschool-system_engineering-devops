@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-# Fix apache server into Docker
+# Start apache in Docker
+service apache2 start

@@ -4,12 +4,29 @@
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-echo "Hello World" | sudo tee /var/www/html/index.nginx-debian.html
-sudo service nginx start
-pattern='server_name _;\n\n\trewrite \^\/redirect_me https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent;/'
-sudo sed -i "s/server_name _;\$/${pattern}" /etc/nginx/sites-available/default
-sudo sed -i "s/^\t\}$/\t\}\n\n\terror_page 404 \/404.html;/" /etc/nginx/sites-available/default
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+sudo mkdir /etc/nginx/html
+sudo touch /etc/nginx/html/index.html
+sudo touch /etc/nginx/html/404.html
+sudo chmod 777 /etc/nginx/html/*
+sudo echo "Holberton School" > /etc/nginx/html/index.html
+sudo echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+sudo chmod 777 /etc/nginx/sites-available/default
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+    location /redirect_me {
+        return 301 https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4;
+    }
+    error_page 404 /404.html;
+    location /404 {
+        root /etc/nginx/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default
+sudo chmod 644 /etc/nginx/sites-available/default
+
 sudo service nginx restart

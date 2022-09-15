@@ -12,8 +12,8 @@ if __name__ == "__main__":
         url + "todos", params={'userId': user_id}).json()
     username = user['username']
 
-    with open('path/to/csv_file', 'w') as f:
-        writer = csv.writer(f)
+    with open(user_id + ".csv", 'w') as f:
+        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
 
         for t in all_tk:
             writer.writerow(

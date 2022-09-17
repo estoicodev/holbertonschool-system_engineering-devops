@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# will display information about subdomains
+# Script accepts 2 arguments:
+# 1. domain
+# 2. subdomain
+# Usage: ./0-world_wide_web <domain> <subdomain>
+
+subdomain_info () {
+    if [ "$#" -eq 1 ]; then
+        dig www.$1 | grep -A1 "ANSWER SECTION:" | tr "\n" " " | awk '{split($0,a," "); split(a[4],b,"."); printf "The subdomain %s is a %s record and points to %s\n",b[1],a[7],a[8]}'
+        dig lb-01.$1 | grep -A1 "ANSWER SECTION:" | tr "\n" " " | awk '{split($0,a," "); split(a[4],b,"."); printf "The subdomain %s is a %s record and points to %s\n",b[1],a[7],a[8]}'
+        dig web-01.$1 | grep -A1 "ANSWER SECTION:" | tr "\n" " " | awk '{split($0,a," "); split(a[4],b,"."); printf "The subdomain %s is a %s record and points to %s\n",b[1],a[7],a[8]}'
+        dig web-02.$1 | grep -A1 "ANSWER SECTION:" | tr "\n" " " | awk '{split($0,a," "); split(a[4],b,"."); printf "The subdomain %s is a %s record and points to %s\n",b[1],a[7],a[8]}'
+    elif [ "$#" -eq 2 ]; then
+        dig $2.$1 | grep -A1 "ANSWER SECTION:" | tr "\n" " " | awk '{split($0,a," "); split(a[4],b,"."); printf "The subdomain %s is a %s record and points to %s\n",b[1],a[7],a[8]}'
+    fi
+}
+
+subdomain_info $1 $2

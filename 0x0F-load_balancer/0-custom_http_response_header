@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Configure nginx with specific requirements:
+# - Add custom HTTP header and his name must be X-Served-By
+# - The value of the custom HTTP header must be the hostname of the server Nginx is running on
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+
+sudo mkdir -p /etc/nginx/html
+sudo touch /etc/nginx/html/index.html
+sudo touch /etc/nginx/html/404.html
+sudo chmod 777 /etc/nginx/html/*
+echo "Holberton School" > /etc/nginx/html/index.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+sudo chmod 777 /etc/nginx/sites-available/default
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+
+    location /redirect_me {
+        return 301 https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+        root /etc/nginx/html;
+        internal;
+    }
+}" > /etc/nginx/sites-available/default
+sudo chmod 644 /etc/nginx/sites-available/default
+
+sudo service nginx restart

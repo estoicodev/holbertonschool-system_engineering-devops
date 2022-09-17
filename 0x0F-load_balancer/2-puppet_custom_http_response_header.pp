@@ -14,18 +14,13 @@ package { 'nginx':
 file_line { 'add header':
   ensure  => 'present',
   path    => '/etc/nginx/sites-available/default',
-  after   => 'listen [::]:80 default_server;',
+  after   => 'listen 80 default_server;',
   line    => "add_header X-Served-By ${hostname};",
   require => Package['nginx'],
 }
 
-file { '/etc/nginx/html/index.html':
+file { '/var/www/html/index.html':
   content => 'Holberton School',
-  require => Package['nginx'],
-}
-
-file { '/etc/nginx/html/404.html':
-  content => 'Ceci n\'est pas une page',
   require => Package['nginx'],
 }
 
